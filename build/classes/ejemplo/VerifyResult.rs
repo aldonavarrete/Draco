@@ -1,0 +1,1 @@
+cl.nic.dte.VerifyResult

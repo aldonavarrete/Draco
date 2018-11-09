@@ -9,6 +9,8 @@ import javax.swing.JOptionPane;
 
 public class Conexion {
     public static String bd= System.getProperty("user.home")+File.separator +".local"+File.separator+"draco.db";
+    
+   
     public static String conector="jdbc:sqlite:";
     public static String url;
     public static Connection conn;
@@ -16,6 +18,7 @@ public class Conexion {
     public static boolean ExisteNombre;
 
     public static void conectar(){
+        System.out.print(bd);
         try {
             url= conector+bd;
             Class.forName("org.sqlite.JDBC");

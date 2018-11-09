@@ -135,7 +135,6 @@ public class JDFLiquidaVenta extends javax.swing.JDialog {
         jTextFolio = new javax.swing.JTextField();
         jTextCodigo = new javax.swing.JTextField();
         jTextObservacion = new javax.swing.JTextField();
-        jDate = new com.toedter.calendar.JDateChooser();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTableReferencia = new javax.swing.JTable();
         jBtnOk = new javax.swing.JButton();
@@ -370,9 +369,7 @@ public class JDFLiquidaVenta extends javax.swing.JDialog {
                             .addComponent(jTextDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jTextFolio, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jDate, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGap(114, 114, 114)
                             .addComponent(jTextCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jTextObservacion, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -387,7 +384,6 @@ public class JDFLiquidaVenta extends javax.swing.JDialog {
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jTextFolio, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jTextDocumento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -596,6 +592,10 @@ public class JDFLiquidaVenta extends javax.swing.JDialog {
         } catch (Exception e) {
             System.err.println("Error jBtnGenerarActionPerformed: "+e);
         }
+        
+        
+        
+        
     }//GEN-LAST:event_jBtnGenerarActionPerformed
 
 
@@ -606,7 +606,6 @@ public class JDFLiquidaVenta extends javax.swing.JDialog {
     private javax.swing.JButton jBtnOk;
     private javax.swing.JButton jBtnVolver;
     private javax.swing.JComboBox<String> jComboDocumento;
-    private com.toedter.calendar.JDateChooser jDate;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;

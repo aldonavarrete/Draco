@@ -33,7 +33,7 @@ public class JFrmPassword extends javax.swing.JFrame {
                 jTxtUser.requestFocus();
                 return;
             }
-            String Enc = Encriptacion.Encriptar(sPassword);
+             String Enc = Encriptacion.Encriptar(sPassword);
             Usuarios objUsu = new Usuarios(this.jTxtUser.getText(), Enc, "NN", 0, 0,"NN");
             objUsu.ExisteUsusario();
             if(!Usuarios.ExisteElUsuario){
