@@ -550,7 +550,7 @@ public class JDFLiquidaVenta extends javax.swing.JDialog {
     private void jBtnGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnGenerarActionPerformed
         // Valido
         // 39 No requiere nada
-        // 33 Requiere ciente
+        // 33 Requiere cliente
         // 61 y 56 Requiere cliente y Referencia
         boolean Sigue=true;
         
