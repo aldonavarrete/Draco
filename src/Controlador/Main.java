@@ -27,6 +27,7 @@ public class Main {
     private int numeroTerminal=0;
     private String fechaHoy="";
     private int diasVencimientoCAF=0;
+    private String acteco="";
 
     public String getTipoCosto() {
         return tipoCosto;
@@ -80,8 +81,14 @@ public class Main {
         return diasVencimientoCAF;
     }
     
-    
-    
+    public String getActeco() {
+        return acteco;
+    }
+
+    public void setActeco(String acteco) {
+        this.acteco = acteco;
+    }
+
     public static void main(String[] args){
 
         //Creo estructuras de tablas
@@ -177,6 +184,8 @@ public class Main {
             giroEmpresa = propiedades.getProperty("Giro");
             numeroTerminal = Integer.parseInt(propiedades.getProperty("NumeroTerminal")); 
             diasVencimientoCAF=Integer.parseInt(propiedades.getProperty("DiasVencimientoCAF")); 
+            acteco = propiedades.getProperty("Acteco");
+
             //Fecha de Hoy
             Calendar fecha = new GregorianCalendar();
             String elMes=""+fecha.get(Calendar.MONTH);
