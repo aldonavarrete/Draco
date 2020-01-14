@@ -96,7 +96,7 @@ public class Folios {
     
     public void DameUnFolio(){
         try {
-            String sql="SELECT folio " +
+            String sql="SELECT folio,archivo " +
                        "FROM folio a " +
                        "INNER JOIN folioD b ON a.id=b.fol_id " +
                        "WHERE a.documento="+documento+" AND estado='DISPONIBLE' AND date()<fecha_vencimiento " +
@@ -108,6 +108,7 @@ public class Folios {
             rs = sentencia.executeQuery(sql);
             if (rs.next()){
                 folio=Integer.parseInt(rs.getString(1));
+                archivo=rs.getString(2);
             }
             Conexion.desconectar();
             
