@@ -5,6 +5,8 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.table.DefaultTableModel;
 import Conexion.Conexion;
+import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class Venta {
@@ -17,7 +19,7 @@ public class Venta {
     private String fecha;
     private DefaultTableModel tablaVenta;
     private DefaultTableModel tablaReferencias;
-
+    
     private String rutCliente;
     private String nombreCliente;
     private String direccionCliente;
@@ -25,19 +27,26 @@ public class Venta {
     private String comunaCliente;
     private String giroCliente;
     
+    private ArrayList<String> arrayEncabezado;
+    private ArrayList<ArrayList<String>> arrayDetalle;
+    private ArrayList<ArrayList<String>> arrayReferencia;
+    
     public Venta() {
     }
 
     public Venta(int codigoDocumento, int folio, int idCliente, String formaPago, int total, DefaultTableModel tablaVenta, DefaultTableModel tablaReferencias) {
         this.codigoDocumento = codigoDocumento;
+        System.out.println("folio "+folio);
         this.folio = folio;
+        System.out.println("folio atri "+this.folio);
         this.idCliente = idCliente;
         this.formaPago = formaPago;
         this.total = total;
         this.tablaVenta = tablaVenta;
         this.tablaReferencias = tablaReferencias;
     }
-
+    
+    
     public int getCodigoDocumento() {
         return codigoDocumento;
     }
@@ -121,12 +130,39 @@ public class Venta {
     public String getGiroCliente() {
         return giroCliente;
     }
+
+    public ArrayList<String> getArrayEncabezado() {
+        return arrayEncabezado;
+    }
+
+    public void setArrayEncabezado(ArrayList<String> arrayEncabezado) {
+        this.arrayEncabezado = arrayEncabezado;
+    }
+
+    public ArrayList<ArrayList<String>> getArrayDetalle() {
+        return arrayDetalle;
+    }
+
+    public void setArrayDetalle(ArrayList<ArrayList<String>> arrayDetalle) {
+        this.arrayDetalle = arrayDetalle;
+    }
+
+    public ArrayList<ArrayList<String>> getArrayReferencia() {
+        return arrayReferencia;
+    }
+
+    public void setArrayReferencia(ArrayList<ArrayList<String>> arrayReferencia) {
+        this.arrayReferencia = arrayReferencia;
+    }
+    
     
     public void GrabaVenta(){
         //Grabo Venta
         int idVenta=0;
+        
         DefaultTableModel tReferencia;
         String sql;
+        
         
         try {
             sql="INSERT INTO venta (id,documento,folio,fecha,cli_id,forma_pago,total) "+
@@ -182,8 +218,17 @@ public class Venta {
         }       
     }   
     
-    public void ConsultaVenta(){
+    public void ConsultaVenta() throws IOException{
         int idVenta=0;
+        arrayEncabezado = new ArrayList<>();
+        arrayDetalle = new ArrayList<>();
+        arrayReferencia = new ArrayList<>();
+        
+        Main objPar = new Main();
+        objPar.parametos();
+                
+        arrayEncabezado.add(codigoDocumento+"");
+        arrayEncabezado.add(folio+"");
         String sql="SELECT a.id,fecha,cli_id,forma_pago,total,rut,nombre,direccion,ciudad,comuna,giro "+
                    "FROM venta a "+
                    "LEFT JOIN clientes b ON b.id=a.cli_id "+
@@ -206,23 +251,66 @@ public class Venta {
                 ciudadCliente=rs.getString(9);
                 comunaCliente=rs.getString(10);
                 giroCliente=rs.getString(11);
+                
+                arrayEncabezado.add(rs.getString(2));//Fecha
+                arrayEncabezado.add(rs.getString(4));//FmaPago
+                arrayEncabezado.add(rs.getString(6));//RutReceptor
+                arrayEncabezado.add(rs.getString(7));//NombreReceptor
+                arrayEncabezado.add(rs.getString(11));//GiroReceptor
+                arrayEncabezado.add(rs.getString(8));//DirecciònReceptor
+                arrayEncabezado.add(rs.getString(10));//ComunaReceptor
+                arrayEncabezado.add(rs.getString(9));//CiudadReceptor
+                
+                arrayEncabezado.add(objPar.getRutEmpresa());//Rut emisor
+                arrayEncabezado.add(objPar.getNombreEmpresa());//Rzon social emisor
+                arrayEncabezado.add(objPar.getGiroEmpresa());//giro emisor
+                arrayEncabezado.add("0");//contacto emisor
+                arrayEncabezado.add("0");//correo emisor
+                arrayEncabezado.add(objPar.getDireccionEmpresa());//direccion emisor
+                arrayEncabezado.add(objPar.getComunaEmpresa());//comuna emisor
+                arrayEncabezado.add(objPar.getCiudadEmpresa());//ciudad emisor
+                arrayEncabezado.add(Integer.parseInt(rs.getString(5))+"");//Monto Total
             }
             rs.close();
+            
+            arrayEncabezado.add("");//Vlr pagar
+            arrayEncabezado.add(objPar.getActeco());//Acteco
             
             //Consulto Detalle de venta
             String nombreColumnas [] ={"PLU","Descripción","Uni.","Cantidad","Precio","SubTotal"};
             String datos [][] ={};
             tablaVenta=new DefaultTableModel(datos, nombreColumnas);
             
-            sql="SELECT a.pro_id,nombre,unidad,cantidad,precio,sub_total " +
+            sql="SELECT a.pro_id,b.nombre,b.unidad,a.cantidad,a.precio,a.sub_total,b.afecto " +
                 "FROM ventaD a " +
                 "INNER JOIN productos b on b.id=a.pro_id " +
                 "WHERE ven_id="+idVenta;
             //System.out.println("sql: "+sql);
             rs = sentencia.executeQuery(sql);
+            int linea=1;
             while (rs.next()){
+                 ArrayList<String> lineas= new ArrayList<>();
+                 lineas.add(linea+"");
+                 lineas.add(rs.getString(1));//codigoProducto
+                 lineas.add(rs.getString(1));//codigoBarra
+                 lineas.add(rs.getString(2));//NombreItem
+                 lineas.add(rs.getString(7));//0=exento 1=afecto
+                 lineas.add(rs.getString(4));//Cantidad
+                 lineas.add(rs.getString(3));//NombreUnidad
+                 lineas.add(rs.getString(5));//Prec Unidad  
+                 lineas.add("0"); // Porcent Descto Unid
+                 lineas.add("0"); // Mnt Descto Unidad
+                 lineas.add("0"); // monto imp
+                 lineas.add("0"); // cod imp
+                 lineas.add(rs.getString(6)); //Mnt Total
+                 System.out.println("sub total "+rs.getString(6));
+                 
+                 arrayDetalle.add(lineas);
+                 
                  String matriz[]={rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6)};
                  tablaVenta.addRow(matriz);
+                 
+                 linea++;
             }
             rs.close();
             
@@ -235,9 +323,22 @@ public class Venta {
                 "WHERE ven_id="+idVenta;
             System.out.println("sql: "+sql);
             rs = sentencia.executeQuery(sql);
+            int linea_ref=1;
             while (rs.next()){
+                ArrayList<String> lineas= new ArrayList<>();
+                lineas.add(linea_ref+"");//NroLinRef
+                lineas.add(rs.getString(1));//TpoDocRef
+                lineas.add("0");//IndGlobal
+                lineas.add(rs.getString(2));//FolioRef
+                lineas.add("0");//RUTOtr
+                lineas.add(rs.getString(3));//FchRef
+                lineas.add(rs.getString(4));//CodRef
+                lineas.add(rs.getString(5));//RazonRef 
+                 
+                 arrayReferencia.add(lineas);
                  String matriz[]={rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6)};
                  tablaReferencias.addRow(matriz);
+                 linea_ref++;
             }
             Conexion.desconectar();
         } catch (Exception e) {
